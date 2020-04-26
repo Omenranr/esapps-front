@@ -1,8 +1,8 @@
 import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
-
-import { RouteWithLayout } from './components';
-import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
+import { Switch, Redirect } from 'react-router-dom'
+import { RouteWithLayout } from './components'
+import { PrivateRoute } from './components/authComponent'
+import { Main as MainLayout, Minimal as MinimalLayout } from './layouts'
 
 import {
   Dashboard as DashboardView,
@@ -25,7 +25,7 @@ const Routes = () => {
         from="/"
         to="/sign-in"
       />
-      <RouteWithLayout
+      <PrivateRoute
         component={DashboardView}
         exact
         layout={MainLayout}
@@ -37,31 +37,31 @@ const Routes = () => {
         layout={MainLayout}
         path="/users"
       />
-      <RouteWithLayout
+      <PrivateRoute
         component={ProductListView}
         exact
         layout={MainLayout}
         path="/products"
       />
-      <RouteWithLayout
+      <PrivateRoute
         component={TypographyView}
         exact
         layout={MainLayout}
         path="/typography"
       />
-      <RouteWithLayout
+      <PrivateRoute
         component={IconsView}
         exact
         layout={MainLayout}
         path="/icons"
       />
-      <RouteWithLayout
+      <PrivateRoute
         component={AccountView}
         exact
         layout={MainLayout}
         path="/account"
       />
-      <RouteWithLayout
+      <PrivateRoute
         component={SettingsView}
         exact
         layout={MainLayout}

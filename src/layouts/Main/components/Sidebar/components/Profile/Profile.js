@@ -23,15 +23,15 @@ const useStyles = makeStyles(theme => ({
 
 const Profile = props => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
-
   const user = {
-    name: 'Shen Zhi',
+    name: '',
     avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director'
-  };
-
+    bio: 'Campanion'
+  } 
+  if(props.user) {
+    user.name = props.user.name
+  }
   return (
     <div
       {...rest}
@@ -56,7 +56,8 @@ const Profile = props => {
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  user: PropTypes.object
 };
 
 export default Profile;

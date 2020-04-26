@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
-
+import { connect } from "react-redux"
 import { Sidebar, Topbar, Footer } from './components';
-
 const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: 56,
@@ -23,8 +22,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Main = props => {
-  const { children } = props;
-
+  const { children, state } = props;
+  const { history } = children.props
+  console.log(props)
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
@@ -32,7 +32,6 @@ const Main = props => {
   });
 
   const [openSidebar, setOpenSidebar] = useState(false);
-
   const handleSidebarOpen = () => {
     setOpenSidebar(true);
   };
@@ -50,11 +49,12 @@ const Main = props => {
         [classes.shiftContent]: isDesktop
       })}
     >
-      <Topbar onSidebarOpen={handleSidebarOpen} />
+      <Topbar onSidebarOpen={handleSidebarOpen} history={history}/>
       <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}
         variant={isDesktop ? 'persistent' : 'temporary'}
+        user={state.auth.user}
       />
       <main className={classes.content}>
         {children}
@@ -65,7 +65,11 @@ const Main = props => {
 };
 
 Main.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
-export default Main;
+const mapStateToProps = state => ({
+  state: state
+})
+
+export default connect(mapStateToProps, {  })(Main)

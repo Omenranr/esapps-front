@@ -15,6 +15,10 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
 
+//REDUX IMPORTS
+import { connect } from "react-redux"
+import { login } from "../../actions/authActions"
+
 const schema = {
   email: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -139,12 +143,18 @@ const SignIn = props => {
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
-
+    if(localStorage.getItem('token') || props.isAuthenticated === true) {
+      history.push('/dashboard')
+    }
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
       errors: errors || {}
     }));
+    if(props.isAuthenticated === true) {
+      history.push('/dashboard')
+    }
+    console.log(props)
   }, [formState.values]);
 
   const handleBack = () => {
@@ -170,9 +180,15 @@ const SignIn = props => {
     }));
   };
 
-  const handleSignIn = event => {
+  const handleSignIn = (event) => {
     event.preventDefault();
-    history.push('/');
+
+    //register handling code
+      const user = {
+        email: formState.values.email,
+        password: formState.values.password
+      }
+      props.login(user)
   };
 
   const hasError = field =>
@@ -195,8 +211,7 @@ const SignIn = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Midum zulum fal de kantirum ipsum ludasim ar de fourden fragh chint is er lan tefnoun
-                fasium limunim is el krak flarik kik el mannen french kun sin ein flein.
+                Connectez vous pour acceder au portail.
               </Typography>
               <div className={classes.person}>
                 <Typography
@@ -209,7 +224,7 @@ const SignIn = props => {
                   className={classes.bio}
                   variant="body2"
                 >
-                  Created by Omen
+                  Page d'authentication
                 </Typography>
               </div>
             </div>
@@ -236,13 +251,13 @@ const SignIn = props => {
                   className={classes.title}
                   variant="h2"
                 >
-                  Sign in
+                  Se connecter
                 </Typography>
                 <Typography
                   color="textSecondary"
                   gutterBottom
                 >
-                  Sign in with social media
+                  Se connecter avec les réseaux
                 </Typography>
                 <Grid
                   className={classes.socialButtons}
@@ -257,7 +272,7 @@ const SignIn = props => {
                       variant="contained"
                     >
                       <FacebookIcon className={classes.socialIcon} />
-                      Login with Facebook
+                      Avec Facebook
                     </Button>
                   </Grid>
                   <Grid item>
@@ -267,7 +282,7 @@ const SignIn = props => {
                       variant="contained"
                     >
                       <GoogleIcon className={classes.socialIcon} />
-                      Login with Google
+                      Avec Google
                     </Button>
                   </Grid>
                 </Grid>
@@ -277,7 +292,7 @@ const SignIn = props => {
                   color="textSecondary"
                   variant="body1"
                 >
-                  or login with email address
+                  se connecter avec votre email
                 </Typography>
                 <TextField
                   className={classes.textField}
@@ -286,7 +301,7 @@ const SignIn = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Email address"
+                  label="Adresse mail"
                   name="email"
                   onChange={handleChange}
                   type="text"
@@ -300,7 +315,7 @@ const SignIn = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Password"
+                  label="Mot de passe"
                   name="password"
                   onChange={handleChange}
                   type="password"
@@ -316,19 +331,19 @@ const SignIn = props => {
                   type="submit"
                   variant="contained"
                 >
-                  Sign in now
+                  Se connecter
                 </Button>
                 <Typography
                   color="textSecondary"
                   variant="body1"
                 >
-                  Don't have an account?{' '}
+                  Vous n'avez pas de compte ?{' '}
                   <Link
                     component={RouterLink}
                     to="/sign-up"
                     variant="h6"
                   >
-                    Sign up
+                    S'enregistrer
                   </Link>
                 </Typography>
               </form>
@@ -344,4 +359,10 @@ SignIn.propTypes = {
   history: PropTypes.object
 };
 
-export default withRouter(SignIn);
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error,
+  Login: PropTypes.func.isRequired
+})
+
+export default connect(mapStateToProps, { login })(withRouter(SignIn))

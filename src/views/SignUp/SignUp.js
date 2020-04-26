@@ -15,6 +15,13 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+//REDUX IMPORTS
+import { connect } from "react-redux"
+import { register, orgRegister } from "../../actions/authActions"
+
+//FORM COMPONENTS
+import { GeneralForm, OrgForm } from "./components";
+
 const schema = {
   firstName: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -103,6 +110,10 @@ const useStyles = makeStyles(theme => ({
   logoImage: {
     marginLeft: theme.spacing(4)
   },
+  addOrgButton: {
+    position: 'absolute',
+    right: '10px',
+  },
   contentBody: {
     flexGrow: 1,
     display: 'flex',
@@ -147,20 +158,32 @@ const SignUp = props => {
 
   const [formState, setFormState] = useState({
     isValid: false,
+    generalMode: true,
     values: {},
     touched: {},
-    errors: {}
+    errors: {
+    }
   });
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
-
+    if (localStorage.getItem('token') || props.isAuthenticated === true) {
+      history.push('/dashboard')
+    }
+    console.log({formState})
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
       errors: errors || {}
     }));
   }, [formState.values]);
+
+  const handleFormChange = () => {
+    setFormState(formState => ({
+      ...formState,
+      generalMode: !formState.generalMode
+    }))
+  }
 
   const handleChange = event => {
     event.persist();
@@ -187,9 +210,11 @@ const SignUp = props => {
 
   const handleSignUp = event => {
     event.preventDefault();
-    history.push('/');
     //register handling code
+    console.log(formState)
+    formState.generalMode ? props.orgRegister(formState.values) : props.register(formState.values)
   };
+
 
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
@@ -211,21 +236,20 @@ const SignUp = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                they sold out High Life.
+                Inscrivez vous pour acceder au portail.
               </Typography>
               <div className={classes.person}>
                 <Typography
                   className={classes.name}
                   variant="body1"
                 >
-                  Takamaru Ayako
+                  Esapps 2020
                 </Typography>
                 <Typography
                   className={classes.bio}
                   variant="body2"
                 >
-                  Manager at inVision
+                  Page d'inscription
                 </Typography>
               </div>
             </div>
@@ -242,135 +266,32 @@ const SignUp = props => {
               <IconButton onClick={handleBack}>
                 <ArrowBackIcon />
               </IconButton>
+              <Button 
+                className={classes.addOrgButton} 
+                color='primary'
+                onClick={handleFormChange}
+              >
+                {formState.generalMode ? 'Ajouter votre organisation' : "S'inscrire normalement"}
+              </Button>
             </div>
             <div className={classes.contentBody}>
-              <form
-                className={classes.form}
-                onSubmit={handleSignUp}
-              >
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
-                  Create new account
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Use your email to create new account
-                </Typography>
-                <TextField
-                  className={classes.textField}
-                  error={hasError('firstName')}
-                  fullWidth
-                  helperText={
-                    hasError('firstName') ? formState.errors.firstName[0] : null
-                  }
-                  label="First name"
-                  name="firstName"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.firstName || ''}
-                  variant="outlined"
+              {/* classes, handleSignup, handleChange, hasError, formState */}
+              {formState.generalMode ?
+                <GeneralForm
+                  classes={classes}
+                  handleSignUp={handleSignUp}
+                  handleChange={handleChange}
+                  hasError={hasError}
+                  formState={formState}
+                /> :
+                <OrgForm
+                  classes={classes}
+                  handleSignUp={handleSignUp}
+                  handleChange={handleChange}
+                  hasError={hasError}
+                  formState={formState}
                 />
-                <TextField
-                  className={classes.textField}
-                  error={hasError('lastName')}
-                  fullWidth
-                  helperText={
-                    hasError('lastName') ? formState.errors.lastName[0] : null
-                  }
-                  label="Last name"
-                  name="lastName"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.lastName || ''}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  error={hasError('email')}
-                  fullWidth
-                  helperText={
-                    hasError('email') ? formState.errors.email[0] : null
-                  }
-                  label="Email address"
-                  name="email"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.email || ''}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  error={hasError('password')}
-                  fullWidth
-                  helperText={
-                    hasError('password') ? formState.errors.password[0] : null
-                  }
-                  label="Password"
-                  name="password"
-                  onChange={handleChange}
-                  type="password"
-                  value={formState.values.password || ''}
-                  variant="outlined"
-                />
-                <div className={classes.policy}>
-                  <Checkbox
-                    checked={formState.values.policy || false}
-                    className={classes.policyCheckbox}
-                    color="primary"
-                    name="policy"
-                    onChange={handleChange}
-                  />
-                  <Typography
-                    className={classes.policyText}
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    I have read the{' '}
-                    <Link
-                      color="primary"
-                      component={RouterLink}
-                      to="#"
-                      underline="always"
-                      variant="h6"
-                    >
-                      Terms and Conditions
-                    </Link>
-                  </Typography>
-                </div>
-                {hasError('policy') && (
-                  <FormHelperText error>
-                    {formState.errors.policy[0]}
-                  </FormHelperText>
-                )}
-                <Button
-                  className={classes.signUpButton}
-                  color="primary"
-                  disabled={!formState.isValid}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
-                  Sign up now
-                </Button>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Have an account?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/sign-in"
-                    variant="h6"
-                  >
-                    Sign in
-                  </Link>
-                </Typography>
-              </form>
+              }
             </div>
           </div>
         </Grid>
@@ -383,4 +304,11 @@ SignUp.propTypes = {
   history: PropTypes.object
 };
 
-export default withRouter(SignUp);
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error,
+  register: PropTypes.func.isRequired,
+  orgRegister: PropTypes.func.isRequired
+})
+
+export default connect(mapStateToProps, { register, orgRegister })(withRouter(SignUp))

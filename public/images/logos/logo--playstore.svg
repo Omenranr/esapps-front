@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<g>
+	<path style="fill:#303C42;" d="M22.491,11.135C17.525,8.324,7.604,2.865,2.463,0.115C1.794-0.242,1,0.285,1,0.995V23   c0,0.551,0.449,1,1,1c0.158,0,0.314-0.041,0.463-0.12c5.141-2.75,15.062-8.209,20.028-11.02C22.805,12.682,23,12.352,23,11.997   C23,11.643,22.805,11.313,22.491,11.135z"/>
+	<polygon style="fill:#4FC3F7;" points="2,22.957 1.991,1.029 12.803,11.997  "/>
+	<path style="fill:#F44336;" d="M13.505,12.71l2.559,2.596c-3.674,2.036-7.847,4.327-11.151,6.121L13.505,12.71z"/>
+	<path style="fill:#8BC34A;" d="M4.921,2.577c3.305,1.792,7.474,4.08,11.143,6.113l-2.558,2.596L4.921,2.577z"/>
+	<path style="fill:#FFEB3B;" d="M16.971,14.802l-2.764-2.804l2.764-2.804c1.921,1.067,3.668,2.043,5.012,2.804   C20.64,12.758,18.893,13.735,16.971,14.802z"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-3.1169" y1="9.6141" x2="19.3307" y2="20.0816">
+		<stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0.2"/>
+		<stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+	</linearGradient>
+	<path style="fill:url(#SVGID_1_);" d="M22.491,11.135C17.525,8.324,7.604,2.865,2.463,0.115C1.794-0.242,1,0.285,1,0.995V23   c0,0.551,0.449,1,1,1c0.158,0,0.314-0.041,0.463-0.12c5.141-2.75,15.062-8.209,20.028-11.02C22.805,12.682,23,12.352,23,11.997   C23,11.643,22.805,11.313,22.491,11.135z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+
+	<metadata>
+		<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+			<rdf:Description about="https://iconscout.com/legal#licenses" dc:title="logo; brand; brands; logos; playstore; google" dc:description="logo; brand; brands; logos; playstore; google" dc:publisher="Iconscout" dc:date="2017-03-22" dc:format="image/svg+xml" dc:language="en">
+				<dc:creator>
+					<rdf:Bag>
+						<rdf:li>Alpár - Etele Méder</rdf:li>
+					</rdf:Bag>
+				</dc:creator>
+			</rdf:Description>
+		</rdf:RDF>
+    </metadata></svg>
