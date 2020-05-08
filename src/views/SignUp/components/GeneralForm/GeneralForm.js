@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import validate from 'validate.js';
-import { makeStyles } from '@material-ui/styles';
+// import validate from 'validate.js';
+// import { makeStyles } from '@material-ui/styles';
 import {
-  Grid,
+  // Grid,
   Button,
-  IconButton,
+  // IconButton,
   TextField,
   Link,
   FormHelperText,
   Checkbox,
   Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+// import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const GeneralForm = props => {
   {/* classes, handleSignup, handleChange, hasError, formState */}

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { returnErrors } from "./errorActions"
+import { formUser, constructOrg } from "./utilFunctions";
 import { history } from "../history";
 import {
     USER_LOADED,
@@ -16,7 +17,7 @@ import {
 export const loadUser = () => (dispatch, getState) => {
     //USER LOADING
     dispatch({ type: USER_LOADING })
-    axios.get('/api/campanionAuth/user', tokenConfig(getState))
+    axios.get('http://localhost:4000/api/campanionAuth/user', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: USER_LOADED,
@@ -33,30 +34,32 @@ export const loadUser = () => (dispatch, getState) => {
 }
 
 export const orgRegister = (values) => dispatch => {
-    console.log(values)
+    console.log("orgregister", values)
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
     const body = JSON.stringify(constructOrg(values))
-    axios.post('/api/campanionAuth/signupOrg', body, config)
+    axios.post('http://localhost:4000/api/campanionAuth/signupOrg', body, config)
     .then(res => {
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
         })
+        history.push('/dashboard')
     })
     .catch(err => {
         dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
         dispatch({
             type: REGISTER_FAIL
         })
+        
     })
 }
 
 export const register = (values) => dispatch => {
-    console.log(values)
+    console.log("normal register", values)
     //HEADERS
     const config = {
         headers: {
@@ -66,7 +69,7 @@ export const register = (values) => dispatch => {
     //REQUEST BODY
     const body = JSON.stringify(formUser(values))
 
-    axios.post('/api/campanionAuth/signup', body, config)
+    axios.post('http://localhost:4000/api/campanionAuth/signup', body, config)
         .then(res => {
             dispatch({
                 type: REGISTER_SUCCESS,
@@ -93,20 +96,22 @@ export const login = (user) => dispatch => {
     //REQUEST BODY
     const body = JSON.stringify(user)
 
-    axios.post('/api/campanionAuth/login', body, config)
+    axios.post('http://localhost:4000/api/campanionAuth/login', body, config)
         .then(res => {
             console.log(res)
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data
             })
+            console.log('finished dispatching')
             history.push('/dashboard')
         })
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'))
             dispatch({
-                type: LOGIN_FAIL
+                type: LOGIN_FAIL,
             })
+            console.log("login error", err)
         })
 }
 
@@ -131,32 +136,4 @@ export const tokenConfig = getState => {
     if (token) config.headers['x-auth-token'] = token
 
     return config
-}
-
-export const constructOrg = values => {
-    const {orgName, email, firstName, lastName, password} = values
-    const organisation = {
-        name: orgName,
-        email: email,
-        admin: {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password
-        }
-    }
-    return organisation
-}
-
-export const formUser = values => {
-    const {firstName, lastName, email, password, orgID, type} = values
-    const user = {
-        firstName: firstName,
-        lastName: lastName,
-        password: password,
-        email: email,
-        orgID: orgID,
-        type: type
-    }
-    return user
 }

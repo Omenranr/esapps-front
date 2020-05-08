@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
@@ -7,10 +6,10 @@ import {
   Grid,
   Button,
   IconButton,
-  TextField,
-  Link,
-  FormHelperText,
-  Checkbox,
+  // TextField,
+  // Link,
+  // FormHelperText,
+  // Checkbox,
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -161,8 +160,7 @@ const SignUp = props => {
     generalMode: true,
     values: {},
     touched: {},
-    errors: {
-    }
+    errors: {}
   });
 
   useEffect(() => {
@@ -170,12 +168,11 @@ const SignUp = props => {
     if (localStorage.getItem('token') || props.isAuthenticated === true) {
       history.push('/dashboard')
     }
-    console.log({formState})
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
       errors: errors || {}
-    }));
+    }))
   }, [formState.values]);
 
   const handleFormChange = () => {
@@ -201,18 +198,19 @@ const SignUp = props => {
         ...formState.touched,
         [event.target.name]: true
       }
-    }));
-  };
+    }))
+  }
 
   const handleBack = () => {
-    history.goBack();
-  };
+    history.goBack()
+  }
 
   const handleSignUp = event => {
     event.preventDefault();
     //register handling code
     console.log(formState)
-    formState.generalMode ? props.orgRegister(formState.values) : props.register(formState.values)
+    console.log("mode", formState.generalMode)
+    formState.generalMode ? props.register(formState.values) : props.orgRegister(formState.values)
   };
 
 
@@ -311,4 +309,4 @@ const mapStateToProps = state => ({
   orgRegister: PropTypes.func.isRequired
 })
 
-export default connect(mapStateToProps, { register, orgRegister })(withRouter(SignUp))
+export default connect(mapStateToProps, { register, orgRegister })(SignUp)

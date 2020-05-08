@@ -41,10 +41,10 @@ const Topbar = props => {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <RouterLink to="/">
+        <RouterLink to="/dashboard">
           <img
             alt="Logo"
-            src="/images/logos/logo--white.svg"
+            src="/images/logos/RPjqK5J.png"
           />
         </RouterLink>
         <div className={classes.flexGrow} />

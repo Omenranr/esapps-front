@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -22,16 +22,25 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = props => {
-  const { className, ...rest } = props;
-  const classes = useStyles();
-  const user = {
+  const [formState, setFormState] = useState({
     name: '',
     avatar: '/images/avatars/avatar_11.png',
-    bio: 'Campanion'
-  } 
-  if(props.user) {
-    user.name = props.user.name
-  }
+    bio: '',
+  });
+  useEffect(() => {
+    console.log(props.user)
+    if (props.user) {
+      const { firstName, lastName, type } = props.user
+      setFormState(formState => ({
+        ...formState,
+        name: firstName + ' ' + lastName,
+        bio: type
+      }))
+    }
+  }, [props.user]);
+
+  const { className, ...rest } = props;
+  const classes = useStyles();
   return (
     <div
       {...rest}
@@ -41,16 +50,16 @@ const Profile = props => {
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
-        src={user.avatar}
+        src={formState.avatar}
         to="/settings"
       />
       <Typography
         className={classes.name}
         variant="h4"
       >
-        {user.name}
+        {formState.name}
       </Typography>
-      <Typography variant="body2">{user.bio}</Typography>
+      <Typography variant="body2">{formState.bio}</Typography>
     </div>
   );
 };
