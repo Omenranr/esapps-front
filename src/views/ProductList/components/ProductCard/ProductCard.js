@@ -11,7 +11,7 @@ import {
   Divider
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
+import StarIcon from '@material-ui/icons/Star'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -54,7 +54,7 @@ const ProductCard = props => {
           <img
             alt="Product"
             className={classes.image}
-            src={product.imageUrl}
+            src={"/images/products/product_2.png"}
           />
         </div>
         <Typography
@@ -62,7 +62,7 @@ const ProductCard = props => {
           gutterBottom
           variant="h4"
         >
-          {product.title}
+          {product.name}
         </Typography>
         <Typography
           align="center"
@@ -86,19 +86,19 @@ const ProductCard = props => {
               display="inline"
               variant="body2"
             >
-              Updated 2hr ago
+              {product.difficulty}
             </Typography>
           </Grid>
           <Grid
             className={classes.statsItem}
             item
           >
-            <GetAppIcon className={classes.statsIcon} />
+            <StarIcon className={classes.statsIcon} />
             <Typography
               display="inline"
               variant="body2"
             >
-              {product.totalDownloads} Downloads
+              {product.rate} rating
             </Typography>
           </Grid>
         </Grid>
@@ -112,4 +112,4 @@ ProductCard.propTypes = {
   product: PropTypes.object.isRequired
 };
 
-export default ProductCard;
+export default ProductCard

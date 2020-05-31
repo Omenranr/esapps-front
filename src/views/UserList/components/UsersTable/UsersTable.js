@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UsersTable = props => {
-  const { className, users, ...rest } = props;
+  const { className, users, tutors, ...rest } = props;
 
   const classes = useStyles();
 
@@ -52,7 +52,7 @@ const UsersTable = props => {
 
   const handleSelectAll = event => {
     const { users } = props;
-
+    console.log("users from usertable", users)
     let selectedUsers;
 
     if (event.target.checked) {
@@ -115,10 +115,12 @@ const UsersTable = props => {
                     />
                   </TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
+                  <TableCell>Email du parent</TableCell>
+                  <TableCell>Date de naissance</TableCell>
+                  <TableCell>Age mental</TableCell>
+                  <TableCell>Genre</TableCell>
+                  <TableCell>Crée le</TableCell>
+                  <TableCell>Tuteur</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -141,21 +143,20 @@ const UsersTable = props => {
                       <div className={classes.nameContainer}>
                         <Avatar
                           className={classes.avatar}
-                          src={user.avatarUrl}
+                          // src={user.avatarUrl}
                         >
                           {getInitials(user.name)}
                         </Avatar>
                         <Typography variant="body1">{user.name}</Typography>
                       </div>
                     </TableCell>
-                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.parentEmail}</TableCell>
+                    <TableCell>{moment(user.birthday).format('DD/MM/YYYY')}</TableCell>
+                    <TableCell>{user.mentalAge}</TableCell>
+                    <TableCell>{user.gender}</TableCell>
+                    <TableCell>{moment(user.createdAt).format('DD/MM/YYYY')}</TableCell>
                     <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
+                      {/* {tutors[0].firstName} */ "test"}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -181,7 +182,8 @@ const UsersTable = props => {
 
 UsersTable.propTypes = {
   className: PropTypes.string,
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  tutors: PropTypes.array.isRequired,
 };
 
 export default UsersTable;

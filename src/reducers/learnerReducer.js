@@ -1,23 +1,23 @@
 import {
-    TUTOR_ADD_SUCCESS,
+    LEARNER_ADD_SUCCESS,
     DELETE_SUCCES,
     MODIFY_SUCCESS,
-    TUTOR_ADD_FAIL,
+    LEARNER_ADD_FAIL,
     DELETE_FAIL,
     MODIFY_FAIL
 } from "../actions/types";
 
 const initialState = {
-    tutors: []
+    learners: []
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case 'TUTOR_ADD_SUCCESS':
+        case 'LEARNER_ADD_SUCCESS':
             return {
-                tutors: [...state.tutors, action.payload.data]
+                learners: [...state.learners, action.payload.data]
             }
-        case 'TUTOR_ADD_FAIL':
+        case 'LEARNER_ADD_FAIL':
             return {
                 ...state,
             }

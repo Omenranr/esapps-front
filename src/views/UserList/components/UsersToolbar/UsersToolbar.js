@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UsersToolbar = props => {
-  const { className, ...rest } = props;
+  const { className, onClickAdd, addMode, ...rest } = props;
 
   const classes = useStyles();
 
@@ -40,27 +40,30 @@ const UsersToolbar = props => {
     >
       <div className={classes.row}>
         <span className={classes.spacer} />
-        <Button className={classes.importButton}>Import</Button>
-        <Button className={classes.exportButton}>Export</Button>
+        <Button className={classes.importButton}>Importer</Button>
+        <Button className={classes.exportButton}>Exporter</Button>
         <Button
           color="primary"
           variant="contained"
+          onClick={onClickAdd}
         >
-          Add user
+          Ajouter un apprenti
         </Button>
       </div>
       <div className={classes.row}>
-        <SearchInput
+        {addMode ? null : <SearchInput
           className={classes.searchInput}
-          placeholder="Search user"
-        />
+          placeholder="Trouver un apprenti"
+        />}
       </div>
     </div>
   );
 };
 
 UsersToolbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  addMode : PropTypes.bool,
+  onClickAdd: PropTypes.func.isRequired
 };
 
 export default UsersToolbar;

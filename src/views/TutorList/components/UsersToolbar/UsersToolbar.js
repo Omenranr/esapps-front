@@ -50,7 +50,7 @@ const UsersToolbar = props => {
       <div className={classes.row}>
         {addMode ? " " : <SearchInput
           className={classes.searchInput}
-          placeholder="Search user"
+          placeholder="Trouver un tuteur"
         />}
       </div>
     </div>

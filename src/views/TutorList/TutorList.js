@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import PropTypes from 'prop-types'
 import { UsersToolbar, UsersTable, TutorForm } from './components'
-import mockData from './data'
 import validate from 'validate.js'
 import { connect } from "react-redux"
 import { addTutor } from "../../actions/tutorActions"
@@ -15,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     marginTop: theme.spacing(2)
   }
-}));
+}))
 
 const schema = {
   firstName: {
@@ -57,13 +56,13 @@ const TutorList = props => {
   // const [users] = useState(mockData);
   const [tutorState, setTutorState] = useState({
     addMode: false,
-    tutors: {},
     isValid: false,
     loaded: false,
     values: {},
     touched: {},
     errors: {},
-    tutors: []
+    tutors: [],
+    search: "",
   })
 
   useEffect(() => {
@@ -82,7 +81,7 @@ const TutorList = props => {
       isValid: errors ? false : true,
     }))
     console.log(tutorState.values)
-  }, [tutorState.values, tutorState.tutors, props.user])
+  }, [tutorState.values, tutorState.tutors, props.user, tutorState.loaded])
 
   const handleChange = event => {
     event.persist();
@@ -101,6 +100,7 @@ const TutorList = props => {
         [event.target.name]: true
       }
     }))
+    console.log(tutorState.touched)
   }
 
   const hasError = field =>
@@ -127,6 +127,8 @@ const TutorList = props => {
     setTutorState((tutorState) => ({
       ...tutorState,
       values: {},
+      touched: {},
+      errors: {},
       tutors: [...tutorState.tutors, showData(tutorState.values)]
     }))
   }
@@ -136,6 +138,10 @@ const TutorList = props => {
       ...tutorState,
       addMode: !tutorState.addMode
     }))
+  }
+
+  const handleSearch = () => {
+
   }
 
   return (

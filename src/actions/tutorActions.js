@@ -3,10 +3,10 @@ import { returnErrors } from "./errorActions"
 import { formUser } from "./utilFunctions";
 import { history } from "../history";
 import {
-    ADD_SUCCESS,
+    TUTOR_ADD_SUCCESS,
     DELETE_SUCCES,
     MODIFY_SUCCESS,
-    ADD_FAIL,
+    TUTOR_ADD_FAIL,
     DELETE_FAIL,
     MODIFY_FAIL
 } from "./types";
@@ -22,14 +22,14 @@ export const addTutor = (tutor, org_id) => (dispatch, getState) => {
     axios.post('http://localhost:4000/api/campanionAuth/signup', body, tokenConfig(getState))
         .then(res => {
             dispatch({
-                type: ADD_SUCCESS,
+                type: TUTOR_ADD_SUCCESS,
                 payload: res.data
             })
         })
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status, 'ADD_FAIL'))
             dispatch({
-                type: ADD_FAIL
+                type: TUTOR_ADD_FAIL
             })
         })
 }
