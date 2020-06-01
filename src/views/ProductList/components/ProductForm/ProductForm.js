@@ -106,8 +106,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const TutorForm = props => {
-    {/* classes, handleSignup, handleChange, hasError, formState */ }
+const ProductForm = props => {
     const { handleAddSubmit, handleChange, hasError, formState } = props
     const classes = useStyles()
     return (
@@ -214,7 +213,7 @@ const TutorForm = props => {
     )
 }
 
-TutorForm.propTypes = {
+ProductForm.propTypes = {
     handleChange: PropTypes.func,
     handleAddSubmit: PropTypes.func,
     hasError: PropTypes.func,
@@ -222,4 +221,4 @@ TutorForm.propTypes = {
     classes: PropTypes.object
 }
 
-export default TutorForm;
+export default ProductForm

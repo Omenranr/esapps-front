@@ -1,16 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { makeStyles } from '@material-ui/styles'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { green } from '@material-ui/core/colors'
 import {
   Card,
   CardContent,
   CardActions,
   Typography,
   Grid,
-  Divider
-} from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
+  Divider,
+  Button
+} from '@material-ui/core'
+import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import StarIcon from '@material-ui/icons/Star'
 
 const useStyles = makeStyles(theme => ({
@@ -39,8 +42,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: green,
+  },
+})
+
 const ProductCard = props => {
-  const { className, product, ...rest } = props;
+  const { className, product, type, onDemandClick, ...rest } = props;
 
   const classes = useStyles();
 
@@ -89,6 +98,18 @@ const ProductCard = props => {
               {product.difficulty}
             </Typography>
           </Grid>
+          {
+            type === "orgApps" ?
+              <ThemeProvider theme={theme}>
+                <Button variant="contained" target="_blank" href={product.download} size="small" color="primary">
+                  Telecharger
+                </Button>
+              </ThemeProvider>
+              :
+              <Button variant="contained" size="small" onClick={onDemandClick} color="primary">
+                Demander
+              </Button>
+          }
           <Grid
             className={classes.statsItem}
             item
@@ -109,7 +130,9 @@ const ProductCard = props => {
 
 ProductCard.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  type: PropTypes.string,
+  onDemandClick: PropTypes.func.isRequired
 };
 
 export default ProductCard
