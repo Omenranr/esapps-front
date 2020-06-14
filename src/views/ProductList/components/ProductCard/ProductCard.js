@@ -50,7 +50,6 @@ const theme = createMuiTheme({
 
 const ProductCard = props => {
   const { className, product, type, onDemandClick, ...rest } = props;
-
   const classes = useStyles();
 
   return (
@@ -102,11 +101,17 @@ const ProductCard = props => {
             type === "orgApps" ?
               <ThemeProvider theme={theme}>
                 <Button variant="contained" target="_blank" href={product.download} size="small" color="primary">
-                  Telecharger
+                  Voir plus
                 </Button>
               </ThemeProvider>
               :
-              <Button variant="contained" size="small" onClick={onDemandClick} color="primary">
+              <Button 
+                variant="contained" 
+                size="small" 
+                onClick={onDemandClick} 
+                color="primary"
+                name={product._id}
+              >
                 Demander
               </Button>
           }
@@ -119,7 +124,7 @@ const ProductCard = props => {
               display="inline"
               variant="body2"
             >
-              {product.rate} rating
+              {product.type}
             </Typography>
           </Grid>
         </Grid>
@@ -132,7 +137,7 @@ ProductCard.propTypes = {
   className: PropTypes.string,
   product: PropTypes.object.isRequired,
   type: PropTypes.string,
-  onDemandClick: PropTypes.func.isRequired
+  onDemandClick: PropTypes.func
 };
 
 export default ProductCard

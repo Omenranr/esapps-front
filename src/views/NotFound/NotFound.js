@@ -35,11 +35,11 @@ const NotFound = () => {
         >
           <div className={classes.content}>
             <Typography variant="h1">
-              404: The page you are looking for isn’t here
+              404: Page introuvable
             </Typography>
             <Typography variant="subtitle2">
-              You either tried some shady route or you came here by mistake.
-              Whichever it is, try using the navigation
+            Soit vous avez essayé une route ombragée, soit vous êtes venu ici par erreur. 
+            Quoi qu'il en soit, essayez d'utiliser la navigation
             </Typography>
             <img
               alt="Under development"

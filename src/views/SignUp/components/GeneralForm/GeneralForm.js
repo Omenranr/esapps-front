@@ -12,7 +12,7 @@ import {
   FormHelperText,
   Checkbox,
   Typography
-} from '@material-ui/core';
+} from '@material-ui/core'
 // import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const GeneralForm = props => {
@@ -132,7 +132,7 @@ const GeneralForm = props => {
           variant="contained"
         >
           S'enregistrer
-                </Button>
+        </Button>
         <Typography
           color="textSecondary"
           variant="body1"

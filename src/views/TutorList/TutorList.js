@@ -66,7 +66,7 @@ const TutorList = props => {
   })
 
   useEffect(() => {
-    const errors = validate(tutorState.values, schema);
+    const errors = validate(tutorState.values, schema)
     if(props.user && !tutorState.loaded) {
       console.log("user loaded", props.user.organizations[0])
       setTutorState((tutorState) => ({

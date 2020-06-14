@@ -27,6 +27,23 @@ export const loadApps = () => (dispatch, getState) => {
         })
 }
 
+export const sendRequest = (learners, user, appDemanded) => (dispatch, getState) => {
+    const body = JSON.stringify({
+        learners: learners,
+        appRequested: appDemanded,
+        user: user,
+        organization: user.organizations[0],
+    })
+    console.log("send app request from appActions", body)
+    axios.post('http://localhost:4000/api/application/sendRequest', body, tokenConfig(getState))
+    .then(res => {
+        console.log("res from app request", res)
+    })
+    .catch(err => {
+        console.log("error from app request", err)
+    })
+}
+
 // SETUP CONFIG/HEADERS AND TOKEN
 export const tokenConfig = getState => {
     //GET TOKEN FROM LOCALSTORAGE

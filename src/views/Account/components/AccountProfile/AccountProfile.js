@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import moment from 'moment';
-import { makeStyles } from '@material-ui/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import moment from 'moment'
+import { makeStyles } from '@material-ui/styles'
 import {
   Card,
   CardActions,
@@ -32,20 +32,20 @@ const useStyles = makeStyles(theme => ({
   uploadButton: {
     marginRight: theme.spacing(2)
   }
-}));
+}))
 
 const AccountProfile = props => {
-  const { className, ...rest } = props;
+  const { className, user, ...rest } = props
 
   const classes = useStyles();
 
-  const user = {
+  const userStatic = {
     name: 'Shen Zhi',
     city: 'Los Angeles',
     country: 'USA',
     timezone: 'GTM-7',
     avatar: '/images/avatars/avatar_11.png'
-  };
+  }
 
   return (
     <Card
@@ -59,33 +59,33 @@ const AccountProfile = props => {
               gutterBottom
               variant="h2"
             >
-              John Doe
+              {user.firstName} {user.lastName}
             </Typography>
             <Typography
               className={classes.locationText}
               color="textSecondary"
               variant="body1"
             >
-              {user.city}, {user.country}
+              Email: {user.email}
+            </Typography>
+            <Typography
+              className={classes.locationText}
+              color="textSecondary"
+              variant="body1"
+            >
+              Phone: {user.phone}
             </Typography>
             <Typography
               className={classes.dateText}
               color="textSecondary"
               variant="body1"
             >
-              {moment().format('hh:mm A')} ({user.timezone})
+              Created at: {moment(user.created_at).format('hh:mm A')} ({user.created_at})
             </Typography>
           </div>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
-          />
-        </div>
-        <div className={classes.progress}>
-          <Typography variant="body1">Profile Completeness: 70%</Typography>
-          <LinearProgress
-            value={70}
-            variant="determinate"
+            src={userStatic.avatar}
           />
         </div>
       </CardContent>
@@ -105,7 +105,8 @@ const AccountProfile = props => {
 };
 
 AccountProfile.propTypes = {
-  className: PropTypes.string
-};
+  className: PropTypes.string,
+  user: PropTypes.object
+}
 
-export default AccountProfile;
+export default AccountProfile

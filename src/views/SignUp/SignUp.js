@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import validate from 'validate.js';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import validate from 'validate.js'
+import { makeStyles } from '@material-ui/styles'
 import {
   Grid,
   Button,
@@ -12,14 +12,14 @@ import {
   // Checkbox,
   Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 
 //REDUX IMPORTS
 import { connect } from "react-redux"
 import { register, orgRegister } from "../../actions/authActions"
 
 //FORM COMPONENTS
-import { GeneralForm, OrgForm } from "./components";
+import { GeneralForm, OrgForm } from "./components"
 
 const schema = {
   firstName: {
@@ -51,7 +51,7 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' },
     checked: true
   }
-};
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -148,12 +148,12 @@ const useStyles = makeStyles(theme => ({
   signUpButton: {
     margin: theme.spacing(2, 0)
   }
-}));
+}))
 
 const SignUp = props => {
-  const { history } = props;
+  const { history } = props
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   const [formState, setFormState] = useState({
     isValid: false,
@@ -161,10 +161,10 @@ const SignUp = props => {
     values: {},
     touched: {},
     errors: {}
-  });
+  })
 
   useEffect(() => {
-    const errors = validate(formState.values, schema);
+    const errors = validate(formState.values, schema)
     if (localStorage.getItem('token') || props.isAuthenticated === true) {
       history.push('/dashboard')
     }
@@ -173,7 +173,7 @@ const SignUp = props => {
       isValid: errors ? false : true,
       errors: errors || {}
     }))
-  }, [formState.values]);
+  }, [formState.values])
 
   const handleFormChange = () => {
     setFormState(formState => ({
@@ -183,7 +183,7 @@ const SignUp = props => {
   }
 
   const handleChange = event => {
-    event.persist();
+    event.persist()
 
     setFormState(formState => ({
       ...formState,
@@ -206,7 +206,7 @@ const SignUp = props => {
   }
 
   const handleSignUp = event => {
-    event.preventDefault();
+    event.preventDefault()
     //register handling code
     console.log(formState)
     console.log("mode", formState.generalMode)
@@ -215,7 +215,7 @@ const SignUp = props => {
 
 
   const hasError = field =>
-    formState.touched[field] && formState.errors[field] ? true : false;
+    formState.touched[field] && formState.errors[field] ? true : false
 
   return (
     <div className={classes.root}>

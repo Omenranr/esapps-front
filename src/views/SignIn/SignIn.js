@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import validate from 'validate.js';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useEffect } from 'react'
+import { Link as RouterLink, withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import validate from 'validate.js'
+import { makeStyles } from '@material-ui/styles'
 import {
   Grid,
   Button,
   IconButton,
   TextField,
   Link,
-  Typography
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+  Typography,
+  LinearProgress
+} from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons'
 
 //REDUX IMPORTS
 import { connect } from "react-redux"
@@ -39,6 +40,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
     height: '100%'
+  },
+  loadingBar: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(5),
+    },
+    marginTop: theme.spacing(1.5)
   },
   grid: {
     height: '100%'
@@ -127,7 +135,7 @@ const useStyles = makeStyles(theme => ({
   signInButton: {
     margin: theme.spacing(2, 0)
   }
-}));
+}))
 
 const SignIn = props => {
   const { history } = props;
@@ -138,12 +146,13 @@ const SignIn = props => {
     isValid: false,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
+    loading: false
   });
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
-    if(localStorage.getItem('token') || props.isAuthenticated === true) {
+    if (localStorage.getItem('token') || props.isAuthenticated === true) {
       history.push('/dashboard')
     }
     setFormState(formState => ({
@@ -151,7 +160,7 @@ const SignIn = props => {
       isValid: errors ? false : true,
       errors: errors || {}
     }));
-    if(props.isAuthenticated === true) {
+    if (props.isAuthenticated === true) {
       history.push('/dashboard')
     }
     console.log(props)
@@ -159,7 +168,7 @@ const SignIn = props => {
 
   const handleBack = () => {
     history.goBack();
-  };
+  }
 
   const handleChange = event => {
     event.persist();
@@ -182,13 +191,16 @@ const SignIn = props => {
 
   const handleSignIn = (event) => {
     event.preventDefault();
-
+    setFormState(formState => ({
+      ...formState,
+      loading: true
+    }))
     //register handling code
-      const user = {
-        email: formState.values.email,
-        password: formState.values.password
-      }
-      props.login(user)
+    const user = {
+      email: formState.values.email,
+      password: formState.values.password
+    }
+    props.login(user)
   };
 
   const hasError = field =>
@@ -236,6 +248,13 @@ const SignIn = props => {
           lg={7}
           xs={12}
         >
+          <div className={classes.loadingBar}>
+            {formState.loading ?
+              <LinearProgress color="primary"/>
+              :
+              ""              
+            }
+          </div>
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               <IconButton onClick={handleBack}>

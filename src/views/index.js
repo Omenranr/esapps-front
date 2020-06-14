@@ -9,3 +9,5 @@ export { default as SignUp } from './SignUp';
 export { default as Typography } from './Typography';
 export { default as UserList } from './UserList';
 export {default as TutorList } from './TutorList'
+export { default as OrganizationList } from './OrganizationList'
+export { default as AppRequestList } from './AppRequestList'

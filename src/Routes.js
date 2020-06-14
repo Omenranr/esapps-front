@@ -15,7 +15,9 @@ import {
   Settings as SettingsView,
   SignUp as SignUpView,
   SignIn as SignInView,
-  NotFound as NotFoundView
+  NotFound as NotFoundView,
+  OrganizationList as OrganizationListView,
+  AppRequestList as AppRequestListView
 } from './views';
 
 const Routes = () => {
@@ -73,6 +75,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/settings"
+      />
+      <PrivateRoute
+        component={OrganizationListView}
+        exact
+        layout={MainLayout}
+        path="/organizations"
+      />
+      <PrivateRoute
+        component={AppRequestListView}
+        exact
+        layout={MainLayout}
+        path="/apprequests"
       />
       <RouteWithLayout
         component={SignUpView}

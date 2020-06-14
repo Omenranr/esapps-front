@@ -11,7 +11,6 @@ import {
     MODIFY_FAIL
 } from "./types";
 
-
 export const addTutor = (tutor, org_id) => (dispatch, getState) => {
     //TUTORS ADDING
     let user = formUser(tutor, "tutor", org_id)

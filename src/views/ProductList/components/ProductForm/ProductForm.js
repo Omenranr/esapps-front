@@ -4,10 +4,15 @@ import PropTypes from 'prop-types'
 import {
     Button,
     TextField,
-    Typography
+    Typography,
+    FormControl,
+    FormLabel,
+    FormGroup,
+    FormControlLabel,
+    FormHelperText,
+    Checkbox
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -87,6 +92,9 @@ const useStyles = makeStyles(theme => ({
             paddingRight: theme.spacing(2)
         }
     },
+    formControl: {
+        margin: theme.spacing(3),
+    },
     title: {
         marginTop: theme.spacing(3)
     },
@@ -107,96 +115,46 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ProductForm = props => {
-    const { handleAddSubmit, handleChange, hasError, formState } = props
+    const { handleRequestSubmit, handleChange, hasError, formState, learners } = props
     const classes = useStyles()
+
     return (
         <div>
             <form
                 className={classes.form}
-                onSubmit={handleAddSubmit}
+                onSubmit={handleRequestSubmit}
             >
                 <Typography
                     className={classes.title}
                     variant="h2"
                 >
-                    Ajouter un tuteur
+                    Demander l'application
                 </Typography>
                 <Typography
                     color="textSecondary"
                     gutterBottom
                 >
-                    Veuillez indiquer les informations
+                    Veuillez remplir les champs suivants
                 </Typography>
-                <TextField
-                    className={classes.textField}
-                    error={hasError('firstName')}
-                    fullWidth
-                    helperText={
-                        hasError('firstName') ? formState.errors.firstName[0] : null
-                    }
-                    label="Prénom"
-                    name="firstName"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values.firstName || ''}
-                    variant="outlined"
-                />
-                <TextField
-                    className={classes.textField}
-                    error={hasError('lastName')}
-                    fullWidth
-                    helperText={
-                        hasError('lastName') ? formState.errors.lastName[0] : null
-                    }
-                    label="Nom"
-                    name="lastName"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values.lastName || ''}
-                    variant="outlined"
-                />
-                <TextField
-                    className={classes.textField}
-                    error={hasError('email')}
-                    fullWidth
-                    helperText={
-                        hasError('email') ? formState.errors.email[0] : null
-                    }
-                    label="Adresse mail"
-                    name="email"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values.email || ''}
-                    variant="outlined"
-                />
-                <TextField
-                    className={classes.textField}
-                    error={hasError('phone')}
-                    fullWidth
-                    helperText={
-                        hasError('phone') ? formState.errors.phone[0] : null
-                    }
-                    label="Numéro de téléphone"
-                    name="phone"
-                    onChange={handleChange}
-                    type="number"
-                    value={formState.values.phone || ''}
-                    variant="outlined"
-                />
-                <TextField
-                    className={classes.textField}
-                    error={hasError('address')}
-                    fullWidth
-                    helperText={
-                        hasError('address') ? formState.errors.address[0] : null
-                    }
-                    label="Adresse"
-                    name="address"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values.address || ''}
-                    variant="outlined"
-                />
+                <FormControl component="fieldset" className={classes.formControl}>
+                    <FormLabel component="legend">Choisir les enfants</FormLabel>
+                    <FormGroup>
+                        {
+                            learners.map(learner => {
+                                return (
+                                    < FormControlLabel
+                                        key={learner._id}
+                                        control={< Checkbox checked={formState[learner._id]} 
+                                        onChange={handleChange} 
+                                        name={learner._id} />}
+                                        label={learner.firstName + " " + learner.lastName}
+                                    />
+                                )
+                            })
+                        }
+                    </FormGroup>
+                    <FormHelperText>Learners</FormHelperText>
+                </FormControl>
                 <Button
                     className={classes.signUpButton}
                     color="primary"
@@ -206,7 +164,7 @@ const ProductForm = props => {
                     type="submit"
                     variant="contained"
                 >
-                    S'enregistrer
+                    Demander
         </Button>
             </form>
         </div>
@@ -218,7 +176,8 @@ ProductForm.propTypes = {
     handleAddSubmit: PropTypes.func,
     hasError: PropTypes.func,
     formState: PropTypes.object,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    learners: PropTypes.array
 }
 
 export default ProductForm

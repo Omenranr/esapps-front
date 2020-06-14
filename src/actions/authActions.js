@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { returnErrors } from "./errorActions"
-import { formUser, constructOrg } from "./utilFunctions";
-import { history } from "../history";
+import { formUser, constructOrg } from "./utilFunctions"
+import { history } from "../history"
 import {
     USER_LOADED,
     USER_LOADING,
@@ -11,6 +11,7 @@ import {
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
     REGISTER_SUCCESS,
+    MODIFY_USER
 } from './types'
 
 //CHECK TOKEN AND LOAD USER
@@ -25,7 +26,7 @@ export const loadUser = () => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            returnErrors(err.response.data, err.response.status)
+            // returnErrors(err.response.data, err.response.status)
             dispatch({
                 type: AUTH_ERROR,
             })
@@ -113,6 +114,33 @@ export const login = (user) => dispatch => {
             })
             console.log("login error", err)
         })
+}
+
+export const modifyUser = (values) => (dispatch, getState) => {
+
+    const body = JSON.stringify(values)
+    axios.post('http://localhost:4000/api/campanion/modifyUser', body, tokenConfig(getState))
+    .then(result => {
+        dispatch(
+            {
+                type: MODIFY_USER,
+                payload: result.data
+            }
+        )
+    })
+}
+
+export const modifyPassword = (values) => (dispatch, getState) => {
+    const body = JSON.stringify(values)
+    axios.post('http://localhost:4000/api/campanion/updatePassword', body, tokenConfig(getState))
+    .then(result => {
+        dispatch(
+            {
+                type: AUTH_ERROR
+            }
+        )
+        history.push('/')
+    })
 }
 
 export const logout = () => {

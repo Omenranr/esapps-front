@@ -4,6 +4,8 @@ import authReducer from './authReducer'
 import tutorReducer from "./tutorReducer"
 import learnerReducer from "./learnerReducer"
 import appReducer from "./appReducer"
+import orgReducer from "./orgReducer"
+import reqReducer from "./reqReducer"
 
 export default combineReducers({
     error : errorReducer,
@@ -11,4 +13,6 @@ export default combineReducers({
     tutor: tutorReducer,
     learner: learnerReducer,
     app: appReducer,
+    org: orgReducer,
+    req: reqReducer
 })

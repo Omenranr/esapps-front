@@ -63,27 +63,63 @@ const Sidebar = props => {
       href: '/products',
       icon: <ShoppingBasketIcon />
     },
-    // {
-    //   title: 'Typography',
-    //   href: '/typography',
-    //   icon: <TextFieldsIcon />
-    // },
-    // {
-    //   title: 'Icons',
-    //   href: '/icons',
-    //   icon: <ImageIcon />
-    // },
     {
-      title: 'Account',
+      title: 'Profile',
       href: '/account',
       icon: <AccountBoxIcon />
     },
     {
-      title: 'Settings',
+      title: 'Paramètres',
       href: '/settings',
       icon: <SettingsIcon />
     }
-  ];
+  ]
+
+  const parentPages = [
+    {
+      title: 'Enfants',
+      href: 'enfants',
+      icon: <PeopleIcon/>
+    },
+    {
+      title: 'Profile',
+      href: '/account',
+      icon: <AccountBoxIcon />
+    },
+    {
+      title: 'Paramètres',
+      href: '/settings',
+      icon: <SettingsIcon />
+    }
+  ]
+
+  const adminPages = [
+    {
+      title: 'Dashboard',
+      href: '/dashboard',
+      icon: <DashboardIcon />
+    },
+    {
+      title: 'Organisations',
+      href: '/organizations',
+      icon: <DashboardIcon />
+    },
+    {
+      title: "Demandes d'app",
+      href: '/apprequests',
+      icon: <ShoppingBasketIcon />
+    },
+    {
+      title: 'Profile',
+      href: '/account',
+      icon: <AccountBoxIcon />
+    },
+    {
+      title: 'Paramètres',
+      href: '/settings',
+      icon: <SettingsIcon />
+    }
+  ]
 
   return (
     <Drawer
@@ -99,10 +135,19 @@ const Sidebar = props => {
       >
         <Profile user={user} />
         <Divider className={classes.divider} />
-        <SidebarNav
-          className={classes.nav}
-          pages={pages}
-        />
+        {
+          user !== null && user.type === 'admin' ?
+            <SidebarNav
+              className={classes.nav}
+              pages={adminPages}
+            />
+
+            :
+            <SidebarNav
+              className={classes.nav}
+              pages={pages}
+            />
+        }
         {/* <UpgradePlan /> */}
       </div>
     </Drawer>

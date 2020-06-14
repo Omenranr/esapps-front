@@ -18,40 +18,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AccountDetails = props => {
-  const { className, ...rest } = props;
+  const { className, formState, handleChange, hasError, onSubmitClick, ...rest } = props
 
-  const classes = useStyles();
-
-  const [values, setValues] = useState({
-    firstName: 'Shen',
-    lastName: 'Zhi',
-    email: 'shen.zhi@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
-
-  const handleChange = event => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
-
-  const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
-    },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
-    }
-  ];
+  const classes = useStyles()
 
   return (
     <Card
@@ -63,7 +32,7 @@ const AccountDetails = props => {
         noValidate
       >
         <CardHeader
-          subheader="The information can be edited"
+          subheader="Vous pouvez changer les informations"
           title="Profile"
         />
         <Divider />
@@ -79,13 +48,16 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
+                label="Prénom"
                 margin="dense"
                 name="firstName"
+                error={hasError('firstName')}
+                helperText={
+                  hasError('firstName') ? formState.errors.firstName[0] : null
+                }
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={formState.values.firstName || ''}
                 variant="outlined"
               />
             </Grid>
@@ -96,12 +68,16 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Last name"
+                label="Nom"
                 margin="dense"
                 name="lastName"
+                error={hasError('lastName')}
+                helperText={
+                  hasError('lastName') ? formState.errors.lastName[0] : null
+                }
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={formState.values.lastName || ''}
                 variant="outlined"
               />
             </Grid>
@@ -112,12 +88,16 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Email Address"
+                label="Adresse mail"
                 margin="dense"
                 name="email"
+                error={hasError('email')}
+                helperText={
+                  hasError('email') ? formState.errors.email[0] : null
+                }
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={formState.values.email || ''}
                 variant="outlined"
               />
             </Grid>
@@ -128,77 +108,45 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Phone Number"
+                label="Téléphone"
                 margin="dense"
                 name="phone"
+                error={hasError('phone')}
+                helperText={
+                  hasError('phone') ? formState.errors.phone[0] : null
+                }
                 onChange={handleChange}
                 type="number"
-                value={values.phone}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Select State"
-                margin="dense"
-                name="state"
-                onChange={handleChange}
                 required
-                select
-                // eslint-disable-next-line react/jsx-sort-props
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map(option => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Country"
-                margin="dense"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
+                value={formState.values.phone || ''}
                 variant="outlined"
               />
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
-        <CardActions>
+        <CardActions >
           <Button
             color="primary"
             variant="contained"
+            disabled={!formState.isValid}
+            onClick={onSubmitClick}
           >
-            Save details
+            Modifier le Profile
           </Button>
         </CardActions>
       </form>
     </Card>
-  );
-};
+  )
+}
 
 AccountDetails.propTypes = {
-  className: PropTypes.string
-};
+  className: PropTypes.string,
+  formState: PropTypes.object,
+  user: PropTypes.object,
+  handleChange: PropTypes.func.isRequired,
+  hasError: PropTypes.func.isRequired,
+  onSubmitClick: PropTypes.func.isRequired,
+}
 
-export default AccountDetails;
+export default AccountDetails
