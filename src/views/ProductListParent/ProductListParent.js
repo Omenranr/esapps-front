@@ -47,8 +47,6 @@ const ProductList = props => {
   const [appState, setAppState] = useState({
     apps: [],
     appsToShow: [],
-    orgApps: [],
-    orgAppsToShow: [],
     demandMode: false,
     detailMode: false,
     appSelected: {}
@@ -125,7 +123,6 @@ const ProductList = props => {
 
   useEffect(() => {
     if (props.user != null) {
-      console.log("props orgApps", props.user.organizations[0].apps)
       console.log("props apps", props.apps)
       let objectives = []
       for (let i = 0; i < props.apps.apps.length; i++) {
@@ -143,22 +140,12 @@ const ProductList = props => {
       }))
       setAppState((appState) => ({
         ...appState,
-        apps: props.apps.apps.filter(app => {
-          return !props.user.organizations[0].apps.find(f => {
-            return app._id === f._id
-          })
-        }),
-        appsToShow: props.apps.apps.filter(app => {
-          return !props.user.organizations[0].apps.find(f => {
-            return app._id === f._id
-          })
-        }),
-        orgApps: props.user.organizations[0].apps,
-        orgAppsToShow: props.user.organizations[0].apps,
+        apps: props.apps.apps,
+        appsToShow: props.apps.apps,
         learners: props.user.organizations[0].learners,
       }))
     }
-  }, [props.apps, props.user])
+  }, [props.apps])
 
   const onDemandClick = (event) => {
     event.persist()
@@ -181,7 +168,6 @@ const ProductList = props => {
     })
     setAppState(prev => {
       let appsToShow = []
-      let orgAppsToShow = []
       if (value !== "") {
         for (let b = 0; b < prev.apps.length; b++) {
           let app = prev.apps[b]
@@ -192,24 +178,12 @@ const ProductList = props => {
             }
           }
         }
-        for (let a = 0; a < prev.orgApps.length; a++) {
-          let app = prev.orgApps[a]
-          for (let i = 0; i < app.exercices.length; i++) {
-            if (app.exercices[i].goals.includes(value)) {
-              console.log(app.name, app.exercices[i].goals)
-              orgAppsToShow.push(app)
-              break
-            }
-          }
-        }
       } else {
         appsToShow = appState.apps
-        orgAppsToShow = appState.orgApps
       }
       return {
         ...prev,
         appsToShow: appsToShow.filter(app => app.name.includes(filterState.search)),
-        orgAppsToShow: orgAppsToShow.filter(app => app.name.includes(filterState.search))
       }
     })
   }
@@ -223,7 +197,6 @@ const ProductList = props => {
     }))
     setAppState(prev => {
       let appsToShow = []
-      let orgAppsToShow = []
       console.log(filterState.objective)
       if (filterState.objective !== '') {
         for (let b = 0; b < prev.apps.length; b++) {
@@ -235,25 +208,12 @@ const ProductList = props => {
             }
           }
         }
-        for (let a = 0; a < prev.orgApps.length; a++) {
-          let app = prev.orgApps[a]
-          for (let i = 0; i < app.exercices.length; i++) {
-            if (app.exercices[i].goals.includes(filterState.objective)) {
-              console.log(app.name, app.exercices[i].goals)
-              orgAppsToShow.push(app)
-              break
-            }
-          }
-        }
       } else {
-        orgAppsToShow = prev.orgApps
         appsToShow = prev.apps
       }
-      console.log(orgAppsToShow)
       return {
         ...prev,
         appsToShow: appsToShow.filter(app => app.name.includes(value)),
-        orgAppsToShow: orgAppsToShow.filter(app => app.name.includes(value)),
       }
     })
   }
@@ -271,7 +231,7 @@ const ProductList = props => {
     console.log('ondetailclicked')
     const id = event.target.parentElement.name
     console.log("apps", appState.apps)
-    const [appSelected] = appState.orgApps.filter(app => app._id === id)
+    const [appSelected] = appState.apps.filter(app => app._id === id)
     console.log("ondetail click", appSelected)
     console.log("id", id)
     console.log("appselected", appSelected)
@@ -308,34 +268,6 @@ const ProductList = props => {
       </div>
         :
       <div>
-        <div className={classes.section1}>
-          <Typography variant="h3">Vos applications</Typography>
-          {appState.orgAppsToShow.length !== 0 ?
-            <div className={classes.content}>
-              <Grid
-                container
-                spacing={3}
-              >
-                {appState.orgAppsToShow.map(app => (
-                  <Grid
-                    item
-                    key={app._id}
-                    lg={4}
-                    md={6}
-                    xs={12}
-                  >
-                    <ProductCard product={app} type="orgApps" onDetailClick={onDetailClick} />
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-            :
-            <Typography variant="h3" className={classes.noApp}>Aucune application à afficher</Typography>
-          }
-        </div>
-
-        <Divider variant="middle" />
-
         <div className={classes.content}>
           <Typography variant="h3" className={classes.toolBar}>Applications non acquises</Typography>
           {appState.appsToShow.length ?
@@ -373,4 +305,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, { loadApps, sendRequest })(ProductList);
+export default connect(mapStateToProps, { loadApps, sendRequest })(ProductList)

@@ -17,7 +17,8 @@ import {
   SignIn as SignInView,
   NotFound as NotFoundView,
   OrganizationList as OrganizationListView,
-  AppRequestList as AppRequestListView
+  AppRequestList as AppRequestListView,
+  ProductListParent as ProductListParentView,
 } from './views';
 
 const Routes = () => {
@@ -51,6 +52,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/products"
+      />
+      <PrivateRoute
+        component={ProductListParentView}
+        exact
+        layout={MainLayout}
+        path="/productsparent"
       />
       <PrivateRoute
         component={TypographyView}

@@ -38,10 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Sidebar = props => {
-  const { open, variant, onClose, className, user, ...rest } = props;
-
-  const classes = useStyles();
-
+  const { open, variant, onClose, className, user, ...rest } = props
   const pages = [
     {
       title: 'Dashboard',
@@ -74,39 +71,10 @@ const Sidebar = props => {
       icon: <SettingsIcon />
     }
   ]
-
   const parentPages = [
     {
-      title: 'Enfants',
-      href: 'enfants',
-      icon: <PeopleIcon/>
-    },
-    {
-      title: 'Profile',
-      href: '/account',
-      icon: <AccountBoxIcon />
-    },
-    {
-      title: 'Paramètres',
-      href: '/settings',
-      icon: <SettingsIcon />
-    }
-  ]
-
-  const adminPages = [
-    {
-      title: 'Dashboard',
-      href: '/dashboard',
-      icon: <DashboardIcon />
-    },
-    {
-      title: 'Organisations',
-      href: '/organizations',
-      icon: <DashboardIcon />
-    },
-    {
-      title: "Demandes d'app",
-      href: '/apprequests',
+      title: "Applications",
+      href: '/productsparent',
       icon: <ShoppingBasketIcon />
     },
     {
@@ -120,7 +88,61 @@ const Sidebar = props => {
       icon: <SettingsIcon />
     }
   ]
-
+  const adminPages = [
+    {
+      title: 'Dashboard',
+      href: '/dashboard',
+      icon: <DashboardIcon />
+    },
+    {
+      title: 'Organisations',
+      href: '/organizations',
+      icon: <DashboardIcon />
+    },
+    {
+      title: "Demandes d'app organisations",
+      href: '/apprequests',
+      icon: <ShoppingBasketIcon />
+    },
+    {
+      title: "Demandes d'app parents",
+      href: '/apprequestsparent',
+      icon: <ShoppingBasketIcon />
+    },
+    {
+      title: 'Profile',
+      href: '/account',
+      icon: <AccountBoxIcon />
+    },
+    {
+      title: 'Paramètres',
+      href: '/settings',
+      icon: <SettingsIcon />
+    }
+  ]
+  const classes = useStyles()
+  const [pageState, setPageState] = React.useState(pages)
+  React.useEffect(() => {
+    if (user !== null) {
+      setPageState(prev => {
+        let actPage = prev
+        switch (user.type) {
+          case 'parent':
+            actPage = parentPages
+            break
+          case 'owner':
+            actPage = pages
+            break
+          case 'admin':
+            actPage = adminPages
+            break
+        }
+        console.log(user.type)
+        console.log(actPage)
+        return actPage
+      })
+    }
+  }, [user])
   return (
     <Drawer
       anchor="left"
@@ -135,19 +157,13 @@ const Sidebar = props => {
       >
         <Profile user={user} />
         <Divider className={classes.divider} />
-        {
-          user !== null && user.type === 'admin' ?
-            <SidebarNav
-              className={classes.nav}
-              pages={adminPages}
-            />
-
-            :
-            <SidebarNav
-              className={classes.nav}
-              pages={pages}
-            />
-        }
+        {user !== null ?
+          <SidebarNav
+            className={classes.nav}
+            pages={pageState}
+          /> : 
+          ""
+          }
         {/* <UpgradePlan /> */}
       </div>
     </Drawer>

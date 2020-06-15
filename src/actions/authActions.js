@@ -59,8 +59,8 @@ export const orgRegister = (values) => dispatch => {
     })
 }
 
-export const register = (values) => dispatch => {
-    console.log("normal register", values)
+export const register = (values, type) => dispatch => {
+    console.log("normal register", {...values, type: type})
     //HEADERS
     const config = {
         headers: {
@@ -68,8 +68,10 @@ export const register = (values) => dispatch => {
         }
     }
     //REQUEST BODY
-    const body = JSON.stringify(formUser(values))
+    let body = JSON.stringify(formUser(values, type))
+    if(type === 'tutor') {
 
+    }
     axios.post('http://localhost:4000/api/campanionAuth/signup', body, config)
         .then(res => {
             dispatch({

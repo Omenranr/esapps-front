@@ -160,7 +160,8 @@ const SignUp = props => {
     generalMode: true,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
+    type: "parent"
   })
 
   useEffect(() => {
@@ -178,7 +179,8 @@ const SignUp = props => {
   const handleFormChange = () => {
     setFormState(formState => ({
       ...formState,
-      generalMode: !formState.generalMode
+      generalMode: !formState.generalMode,
+      type: formState.generalMode ? 'parent' : 'owner'
     }))
   }
 
@@ -210,7 +212,7 @@ const SignUp = props => {
     //register handling code
     console.log(formState)
     console.log("mode", formState.generalMode)
-    formState.generalMode ? props.register(formState.values) : props.orgRegister(formState.values)
+    formState.generalMode ? props.register(formState.values, formState.type) : props.orgRegister(formState.values)
   };
 
 
