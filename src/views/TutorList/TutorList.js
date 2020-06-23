@@ -5,6 +5,7 @@ import { UsersToolbar, UsersTable, TutorForm } from './components'
 import validate from 'validate.js'
 import { connect } from "react-redux"
 import { addTutor } from "../../actions/tutorActions"
+import { loadUser } from "../../actions/authActions"
 import uuid from 'uuid/v1'
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +53,7 @@ const schema = {
 
 const TutorList = props => {
   const classes = useStyles();
-  const {user, addTutor} = props
+  const {user, addTutor, loadUser} = props
   // const [users] = useState(mockData);
   const [tutorState, setTutorState] = useState({
     addMode: false,
@@ -64,6 +65,10 @@ const TutorList = props => {
     tutors: [],
     search: "",
   })
+
+  useEffect(() => {
+    loadUser()
+  }, [])
 
   useEffect(() => {
     const errors = validate(tutorState.values, schema)
@@ -131,6 +136,7 @@ const TutorList = props => {
       errors: {},
       tutors: [...tutorState.tutors, showData(tutorState.values)]
     }))
+    window.location.reload()
   }
 
   const onClickAdd = () => {
@@ -163,7 +169,8 @@ const TutorList = props => {
 
 const mapStateToProps = state => ({
   addTutor: PropTypes.func.isRequired,
+  loadUser: PropTypes.func.isRequired,
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { addTutor })(TutorList);
+export default connect(mapStateToProps, { addTutor, loadUser })(TutorList);

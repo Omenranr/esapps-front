@@ -85,19 +85,19 @@ const UsersByDevice = props => {
 
   const devices = [
     {
-      title: 'Desktop',
+      title: 'Iphone',
       value: '63',
-      icon: <LaptopMacIcon />,
+      icon: <PhoneIphoneIcon />,
       color: theme.palette.primary.main
     },
     {
-      title: 'Tablet',
+      title: 'Windows Phone',
       value: '15',
       icon: <TabletMacIcon />,
       color: theme.palette.error.main
     },
     {
-      title: 'Mobile',
+      title: 'Android',
       value: '23',
       icon: <PhoneIphoneIcon />,
       color: theme.palette.warning.main

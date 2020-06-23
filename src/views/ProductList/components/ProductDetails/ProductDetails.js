@@ -89,7 +89,7 @@ const ProductDetails = props => {
           </div>
             <Avatar
                 className={classes.avatar}
-                src={app.image}
+                src={'/images/products/'+app.image+'.png'}
             >
             </Avatar>
         </div>

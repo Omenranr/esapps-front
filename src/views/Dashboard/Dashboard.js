@@ -64,15 +64,7 @@ const Dashboard = () => {
         >
           <TotalProfit />
         </Grid>
-        <Grid
-          item
-          lg={8}
-          md={12}
-          xl={9}
-          xs={12}
-        >
-          <LatestSales />
-        </Grid>
+
         <Grid
           item
           lg={4}
@@ -90,15 +82,6 @@ const Dashboard = () => {
           xs={12}
         >
           <LatestProducts />
-        </Grid>
-        <Grid
-          item
-          lg={8}
-          md={12}
-          xl={9}
-          xs={12}
-        >
-          <LatestOrders />
         </Grid>
       </Grid>
     </div>

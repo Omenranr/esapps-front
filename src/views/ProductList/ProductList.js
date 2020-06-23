@@ -141,22 +141,28 @@ const ProductList = props => {
         ...prev,
         objectives: objectives
       }))
-      setAppState((appState) => ({
-        ...appState,
-        apps: props.apps.apps.filter(app => {
-          return !props.user.organizations[0].apps.find(f => {
-            return app._id === f._id
+      setAppState((appState) => {
+        let apps = props.apps.apps
+        if(props.user.organizations[0].apps) {
+          apps = apps.filter(app => {
+            return !props.user.organizations[0].apps.find(f => {
+              return app._id === f._id
+            })
           })
-        }),
-        appsToShow: props.apps.apps.filter(app => {
-          return !props.user.organizations[0].apps.find(f => {
-            return app._id === f._id
-          })
-        }),
-        orgApps: props.user.organizations[0].apps,
-        orgAppsToShow: props.user.organizations[0].apps,
-        learners: props.user.organizations[0].learners,
-      }))
+        }
+        return {
+          ...appState,
+          apps: apps,
+          appsToShow: props.apps.apps.filter(app => {
+            return !props.user.organizations[0].apps.find(f => {
+              return app._id === f._id
+            })
+          }),
+          orgApps: props.user.organizations[0].apps,
+          orgAppsToShow: props.user.organizations[0].apps,
+          learners: props.user.organizations[0].learners,
+        }
+      })
     }
   }, [props.apps, props.user])
 
@@ -293,75 +299,75 @@ const ProductList = props => {
       </div>}
 
       {appState.demandMode || appState.detailMode ?
-      <div>
-        {appState.demandMode ?        
-          <ProductForm
-          handleChange={handleChange}
-          hasError={hasError}
-          formState={formState}
-          handleRequestSubmit={handleRequestSubmit}
-          learners={appState.learners}
-          />
-          :
-          <ProductDetails app={appState.appSelected} handleBack={handleBack}/>
-        }
-      </div>
+        <div>
+          {appState.demandMode ?
+            <ProductForm
+              handleChange={handleChange}
+              hasError={hasError}
+              formState={formState}
+              handleRequestSubmit={handleRequestSubmit}
+              learners={appState.learners}
+            />
+            :
+            <ProductDetails app={appState.appSelected} handleBack={handleBack} />
+          }
+        </div>
         :
-      <div>
-        <div className={classes.section1}>
-          <Typography variant="h3">Vos applications</Typography>
-          {appState.orgAppsToShow.length !== 0 ?
-            <div className={classes.content}>
-              <Grid
-                container
-                spacing={3}
-              >
-                {appState.orgAppsToShow.map(app => (
-                  <Grid
-                    item
-                    key={app._id}
-                    lg={4}
-                    md={6}
-                    xs={12}
-                  >
-                    <ProductCard product={app} type="orgApps" onDetailClick={onDetailClick} />
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-            :
-            <Typography variant="h3" className={classes.noApp}>Aucune application à afficher</Typography>
-          }
-        </div>
+        <div>
+          <div className={classes.section1}>
+            <Typography variant="h3">Vos applications</Typography>
+            {appState.orgAppsToShow.length !== 0 ?
+              <div className={classes.content}>
+                <Grid
+                  container
+                  spacing={3}
+                >
+                  {appState.orgAppsToShow.map(app => (
+                    <Grid
+                      item
+                      key={app._id}
+                      lg={4}
+                      md={6}
+                      xs={12}
+                    >
+                      <ProductCard product={app} type="orgApps" onDetailClick={onDetailClick} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+              :
+              <Typography variant="h3" className={classes.noApp}>Aucune application à afficher</Typography>
+            }
+          </div>
 
-        <Divider variant="middle" />
+          <Divider variant="middle" />
 
-        <div className={classes.content}>
-          <Typography variant="h3" className={classes.toolBar}>Applications non acquises</Typography>
-          {appState.appsToShow.length ?
-            <div>
-              <Grid
-                container
-                spacing={3}
-              >
-                {appState.appsToShow.map(app => (
-                  <Grid
-                    item
-                    key={app._id}
-                    lg={4}
-                    md={6}
-                    xs={12}
-                  >
-                    <ProductCard product={app} type="esapp" onDemandClick={onDemandClick} />
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-            :
-            <Typography variant="h3" className={classes.noApp}>Aucune application à afficher</Typography>
-          }
-        </div>
-      </div>}
+          <div className={classes.content}>
+            <Typography variant="h3" className={classes.toolBar}>Applications non acquises</Typography>
+            {appState.appsToShow.length ?
+              <div>
+                <Grid
+                  container
+                  spacing={3}
+                >
+                  {appState.appsToShow.map(app => (
+                    <Grid
+                      item
+                      key={app._id}
+                      lg={4}
+                      md={6}
+                      xs={12}
+                    >
+                      <ProductCard product={app} type="esapp" onDemandClick={onDemandClick} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+              :
+              <Typography variant="h3" className={classes.noApp}>Aucune application à afficher</Typography>
+            }
+          </div>
+        </div>}
     </div>
   );
 };

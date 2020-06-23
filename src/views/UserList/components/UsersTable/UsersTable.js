@@ -120,7 +120,6 @@ const UsersTable = props => {
                   <TableCell>Age mental</TableCell>
                   <TableCell>Genre</TableCell>
                   <TableCell>Crée le</TableCell>
-                  <TableCell>Tuteur</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -155,9 +154,6 @@ const UsersTable = props => {
                     <TableCell>{user.mentalAge}</TableCell>
                     <TableCell>{user.gender}</TableCell>
                     <TableCell>{moment(user.createdAt).format('DD/MM/YYYY')}</TableCell>
-                    <TableCell>
-                      {/* {tutors[0].firstName} */ "test"}
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -41,12 +41,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     height: '100%'
   },
+  errorMessage: {
+    marginTop: theme.spacing(3)
+  },
   loadingBar: {
-    width: '100%',
+    width: '1300px',
     '& > * + *': {
       marginTop: theme.spacing(5),
     },
-    marginTop: theme.spacing(1.5)
+    marginTop: theme.spacing(0)
   },
   grid: {
     height: '100%'
@@ -129,6 +132,10 @@ const useStyles = makeStyles(theme => ({
   sugestion: {
     marginTop: theme.spacing(2)
   },
+  errorText: {
+    color: 'red',
+    marginTop: theme.spacing(2),
+  },
   textField: {
     marginTop: theme.spacing(2)
   },
@@ -138,10 +145,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SignIn = props => {
-  const { history } = props;
+  const { history, error } = props;
 
   const classes = useStyles();
-
+  const [errorState, setErrorState] = useState({
+    error: {}
+  })
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
@@ -149,6 +158,16 @@ const SignIn = props => {
     errors: {},
     loading: false
   });
+
+  useEffect(() => {
+    if (error !== null) {
+      console.log(error)
+      setErrorState(prev => ({
+        ...prev,
+        error: error
+      }))
+    }
+  }, [error])
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -195,12 +214,8 @@ const SignIn = props => {
       ...formState,
       loading: true
     }))
-    //register handling code
-    const user = {
-      email: formState.values.email,
-      password: formState.values.password
-    }
-    props.login(user)
+
+    props.login(formState.values)
   };
 
   const hasError = field =>
@@ -245,14 +260,28 @@ const SignIn = props => {
         <Grid
           className={classes.content}
           item
-          lg={7}
-          xs={12}
+          lg={5}
+          xs={14}
         >
           <div className={classes.loadingBar}>
             {formState.loading ?
-              <LinearProgress color="primary"/>
+              <LinearProgress color="primary" />
               :
-              ""              
+              ""
+            }
+          </div>
+          <div className={classes.errorMessage}>
+            {errorState.error.msg ?
+              <Typography
+                align="center"
+                className={classes.errorMessage}
+                color="secondary"
+                variant="body1"
+              >
+                {errorState.error.msg.msg}
+              </Typography>
+              :
+              ""
             }
           </div>
           <div className={classes.content}>
@@ -266,45 +295,6 @@ const SignIn = props => {
                 className={classes.form}
                 onSubmit={handleSignIn}
               >
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
-                  Se connecter
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Se connecter avec les réseaux
-                </Typography>
-                <Grid
-                  className={classes.socialButtons}
-                  container
-                  spacing={2}
-                >
-                  <Grid item>
-                    <Button
-                      color="primary"
-                      onClick={handleSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      <FacebookIcon className={classes.socialIcon} />
-                      Avec Facebook
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      onClick={handleSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      <GoogleIcon className={classes.socialIcon} />
-                      Avec Google
-                    </Button>
-                  </Grid>
-                </Grid>
                 <Typography
                   align="center"
                   className={classes.sugestion}
@@ -381,7 +371,7 @@ SignIn.propTypes = {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  Login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 })
 
 export default connect(mapStateToProps, { login })(withRouter(SignIn))

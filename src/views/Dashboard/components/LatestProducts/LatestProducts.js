@@ -50,7 +50,7 @@ const LatestProducts = props => {
     >
       <CardHeader
         subtitle={`${products.length} in total`}
-        title="Latest products"
+        title="Applications récentes"
       />
       <Divider />
       <CardContent className={classes.content}>

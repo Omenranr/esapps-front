@@ -106,7 +106,7 @@ const OrgCard = props => {
                 <div key={app._id}>
                     <ListItem alignItems="flex-start">
                     <ListItemAvatar>
-                        <Avatar alt="Travis Howard" src="/images/products/product_3.png" />
+                        <Avatar alt="Travis Howard" src={"/images/products/"+app.image+".png"} />
                     </ListItemAvatar>
                     <ListItemText
                     primary={"Application: " + app.name + ", " + "Difficulté: " + app.difficulty}

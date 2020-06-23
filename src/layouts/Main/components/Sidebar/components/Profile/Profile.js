@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 const Profile = props => {
   const [formState, setFormState] = useState({
     name: '',
-    avatar: '/images/avatars/avatar_11.png',
+    avatar: '/images/avatars/avatar.png',
     bio: '',
   });
   useEffect(() => {

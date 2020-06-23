@@ -168,6 +168,7 @@ const SignUp = props => {
     const errors = validate(formState.values, schema)
     if (localStorage.getItem('token') || props.isAuthenticated === true) {
       history.push('/dashboard')
+      console.log("redirected")
     }
     setFormState(formState => ({
       ...formState,
@@ -259,7 +260,7 @@ const SignUp = props => {
           className={classes.content}
           item
           lg={7}
-          xs={12}
+          xs={15}
         >
           <div className={classes.content}>
             <div className={classes.contentHeader}>

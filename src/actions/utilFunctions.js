@@ -9,6 +9,9 @@ export const formUser = (values, type) => {
         phone: phone,
         address: address,
     }
+    if(type === 'parent') {
+        user.password = values.password
+    }
     return user
 }
 

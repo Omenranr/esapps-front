@@ -44,6 +44,23 @@ export const sendRequest = (learners, user, appDemanded) => (dispatch, getState)
     })
 }
 
+export const sendParentRequest = (values, parent, appDemanded) => (dispatch, getState) => {
+    console.log("sendrequestparent")
+    const body = JSON.stringify({
+        ...values,
+        appRequested: appDemanded,
+        type: 'parent',
+        parent: parent
+    })
+    axios.post('http://localhost:4000/api/application/sendParentRequest', body, tokenConfig(getState))
+    .then(res => {
+        console.log("res from parent app request", res)
+    })
+    .catch(err => {
+        console.log("error from parent app request", err)
+    })
+}
+
 // SETUP CONFIG/HEADERS AND TOKEN
 export const tokenConfig = getState => {
     //GET TOKEN FROM LOCALSTORAGE

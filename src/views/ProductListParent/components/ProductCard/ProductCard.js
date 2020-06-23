@@ -97,24 +97,18 @@ const ProductCard = props => {
               {product.difficulty}
             </Typography>
           </Grid>
-          {
-            type === "orgApps" ?
-              <ThemeProvider theme={theme}>
-                <Button name={product._id} variant="contained" onClick={onDetailClick} size="small" color="primary">
-                  Voir plus
-                </Button>
-              </ThemeProvider>
-              :
-              <Button 
-                variant="contained" 
-                size="small" 
-                onClick={onDemandClick} 
+              <Button
+                variant="contained"
+                size="small"
+                onClick={onDemandClick}
                 color="primary"
                 name={product._id}
               >
                 Demander
               </Button>
-          }
+              <Button name={product._id} variant="contained" onClick={onDetailClick} size="small" color="primary">
+                Voir plus
+              </Button>
           <Grid
             className={classes.statsItem}
             item

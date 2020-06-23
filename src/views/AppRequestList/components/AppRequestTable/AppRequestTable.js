@@ -187,7 +187,7 @@ const AppRequestTable = props => {
                       onChange={handleSelectAll}
                     />
                   </TableCell>
-                  <TableCell align="center">Organisation</TableCell>
+                  <TableCell align="center">Nom</TableCell>
                   <TableCell align="center">Email</TableCell>
                   <TableCell align="center">Application</TableCell>
                   <TableCell align="center">Nombre d'apprenants</TableCell>
@@ -216,16 +216,16 @@ const AppRequestTable = props => {
                           className={classes.avatar}
                           src={req.avatarUrl}
                         >
-                          {getInitials(req.organization.name)}
+                          {getInitials(req.organization ? req.organization.name : "")}
                         </Avatar>
-                        <Typography variant="body1">{req.organization.name}</Typography>
+                        <Typography variant="body1">{req.organization ? req.organization.name : ""}</Typography>
                       </div>
                     </TableCell>
-                    <TableCell align="center">{req.organization.email}</TableCell>
+                    <TableCell align="center">{req.organization ? req.organization.email : req.parentEmail}</TableCell>
                     <TableCell align="center">
                       {req.application.name}
                     </TableCell>
-                    <TableCell align="center">{req.learners.length}</TableCell>
+                    <TableCell align="center">{req.learners ? req.learners.length: ""}</TableCell>
                     <TableCell align="center">
                       {filterValue === "pending" ?
                         <ButtonGroup>
@@ -252,6 +252,7 @@ const AppRequestTable = props => {
                         </ButtonGroup>
                         : ""
                       }
+                      {req.organization ?                    
                       <Button
                         variant="outlined"
                         className={classes.buttonSeeMore}
@@ -263,6 +264,7 @@ const AppRequestTable = props => {
                       >
                         Voir plus
                       </Button>
+                      : ""}
                       {req.status === 'rejected' ?" Motif : " + req.motif : ""}
                     </TableCell>
                   </TableRow>

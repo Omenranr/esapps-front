@@ -69,9 +69,7 @@ export const register = (values, type) => dispatch => {
     }
     //REQUEST BODY
     let body = JSON.stringify(formUser(values, type))
-    if(type === 'tutor') {
 
-    }
     axios.post('http://localhost:4000/api/campanionAuth/signup', body, config)
         .then(res => {
             dispatch({

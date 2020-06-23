@@ -47,6 +47,25 @@ export const sendDecision = (decision, request, motif) => (dispatch, getState) =
     })
 }
 
+export const sendDecisionParent = (decision, request, motif) => (dispatch, getState) => {
+    console.log("entered send decision in frontend")
+    const data = {
+        application: request.application,
+        decision: decision,
+        request: request
+    }
+    console.log(data)
+    data.motif = motif === null ? null : motif
+    const body = JSON.stringify(data)
+    axios.post('http://localhost:4000/api/request/sendDecisionParent', body, tokenConfig(getState))
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
 // SETUP CONFIG/HEADERS AND TOKEN
 export const tokenConfig = getState => {
     //GET TOKEN FROM LOCALSTORAGE

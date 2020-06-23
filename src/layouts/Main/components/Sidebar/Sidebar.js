@@ -100,13 +100,8 @@ const Sidebar = props => {
       icon: <DashboardIcon />
     },
     {
-      title: "Demandes d'app organisations",
+      title: "Demandes d'app",
       href: '/apprequests',
-      icon: <ShoppingBasketIcon />
-    },
-    {
-      title: "Demandes d'app parents",
-      href: '/apprequestsparent',
       icon: <ShoppingBasketIcon />
     },
     {

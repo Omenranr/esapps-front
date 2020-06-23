@@ -19,6 +19,7 @@ import {
   OrganizationList as OrganizationListView,
   AppRequestList as AppRequestListView,
   ProductListParent as ProductListParentView,
+  HomePage as HomePageView,
 } from './views';
 
 const Routes = () => {
@@ -27,7 +28,7 @@ const Routes = () => {
       <Redirect
         exact
         from="/"
-        to="/sign-in"
+        to="/homepage"
       />
       <PrivateRoute
         component={DashboardView}
@@ -106,6 +107,12 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/sign-in"
+      />
+      <RouteWithLayout
+        component={HomePageView}
+        exact
+        layout={MinimalLayout}
+        path="/homepage"
       />
       <RouteWithLayout
         component={NotFoundView}

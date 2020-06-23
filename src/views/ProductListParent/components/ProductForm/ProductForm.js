@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             paddingLeft: theme.spacing(2),
             paddingRight: theme.spacing(2)
-        }
+        },
     },
     formControl: {
         margin: theme.spacing(3),
@@ -115,7 +115,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ProductForm = props => {
-    const { handleRequestSubmit, handleChange, hasError, formState, learners } = props
+    const { handleRequestSubmit, handleChange, hasError, formState } = props
     const classes = useStyles()
 
     return (
@@ -136,25 +136,50 @@ const ProductForm = props => {
                 >
                     Veuillez remplir les champs suivants
                 </Typography>
-                <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">Choisir les enfants</FormLabel>
-                    <FormGroup>
-                        {
-                            learners.map(learner => {
-                                return (
-                                    < FormControlLabel
-                                        key={learner._id}
-                                        control={< Checkbox checked={formState[learner._id]} 
-                                        onChange={handleChange} 
-                                        name={learner._id} />}
-                                        label={learner.firstName + " " + learner.lastName}
-                                    />
-                                )
-                            })
+                    <FormLabel component="legend">Ajouer maximum 3 enfants avec une description complete</FormLabel>
+                    <TextField
+                        className={classes.textField}
+                        error={hasError('enfant1')}
+                        fullWidth
+                        helperText={
+                            hasError('enfant1') ? formState.errors.enfant1[0] : null
                         }
-                    </FormGroup>
-                    <FormHelperText>Learners</FormHelperText>
-                </FormControl>
+                        label="Enfant1"
+                        name="enfant1"
+                        onChange={handleChange}
+                        type="text"
+                        value={formState.values.enfant1 || ''}
+                        variant="outlined"
+                    />
+                    <TextField
+                        className={classes.textField}
+                        error={hasError('enfant2')}
+                        fullWidth
+                        helperText={
+                            hasError('enfant2') ? formState.errors.enfant2[0] : null
+                        }
+                        label="Enfant2"
+                        name="enfant2"
+                        onChange={handleChange}
+                        type="text"
+                        value={formState.values.enfant2 || ''}
+                        variant="outlined"
+                    />
+                    <TextField
+                        className={classes.textField}
+                        error={hasError('enfant3')}
+                        fullWidth
+                        helperText={
+                            hasError('enfant3') ? formState.errors.enfant3[0] : null
+                        }
+                        label="Enfant 3"
+                        name="enfant3"
+                        onChange={handleChange}
+                        type="text"
+                        value={formState.values.enfant3 || ''}
+                        variant="outlined"
+                    />
+                    <FormHelperText>Enfants</FormHelperText>
                 <Button
                     className={classes.signUpButton}
                     color="primary"
@@ -165,7 +190,7 @@ const ProductForm = props => {
                     variant="contained"
                 >
                     Demander
-        </Button>
+                </Button>
             </form>
         </div>
     )

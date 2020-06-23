@@ -7,7 +7,7 @@ import { AppRequestTable, AppRequestToolbar, DetailedRequest } from './component
 // import uuid from 'uuid/v1'
 import { connect } from "react-redux"
 import { history } from '../../history'
-import { loadReqs, sendDecision } from "../../actions/reqActions"
+import { loadReqs, sendDecision, sendDecisionParent } from "../../actions/reqActions"
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,7 @@ const schema = {
 
 const AppRequestList = props => {
   const classes = useStyles();
-  const {user, loadReqs, sendDecision, requests} = props
+  const {user, loadReqs, sendDecision, sendDecisionParent, requests} = props
   // const [users] = useState(mockData);
   const [filterValue, setFilterValue] = React.useState('pending')
   const [reqState, setReqState] = useState({
@@ -121,7 +121,11 @@ const AppRequestList = props => {
 
   const handleValidate = (event) => {
     console.log("validated reject")
-    sendDecision(reqState.decision, reqState.selectedReq, formState.values.motif)
+    if(reqState.selectedReq.type === 'app') {
+      sendDecision(reqState.decision, reqState.selectedReq, formState.values.motif)
+    } else {
+      sendDecisionParent(reqState.decision, reqState.selectedReq, formState.values.motif)
+    }
     closePopup(event)
     // il faut supprimer la requête
     removeFromList(reqState.decision, reqState.selectedReq._id)
@@ -137,7 +141,11 @@ const AppRequestList = props => {
     let [selectedReq] = reqState.toShowReqs.filter(req => {return req._id === reqId})
     console.log(decision)
     console.log(selectedReq)
-    sendDecision(decision, selectedReq)
+    if(selectedReq.type === 'app') {
+      sendDecision(decision, selectedReq, formState.values.motif)
+    } else {
+      sendDecisionParent(decision, selectedReq, formState.values.motif)
+    }
     // il faut supprimer la requête
     removeFromList(decision, reqId)
   }
@@ -241,6 +249,7 @@ const mapStateToProps = state => ({
   requests: state.req.requests,
   loadReqs: PropTypes.func.isRequired,
   sendDecision: PropTypes.func.isRequired,
+  sendDecisionParent: PropTypes.func.isRequired,
 })
 
-export default connect(mapStateToProps, { loadReqs, sendDecision })(AppRequestList)
+export default connect(mapStateToProps, { loadReqs, sendDecision, sendDecisionParent })(AppRequestList)

@@ -6,7 +6,8 @@ import uuid from 'uuid/v1'
 import { connect } from "react-redux"
 import { UsersToolbar, UsersTable, LearnerForm } from './components';
 import { addLearner } from "../../actions/learnerActions";
-
+import { loadUser } from "../../actions/authActions"
+import {history} from '../../history'
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3)
@@ -53,7 +54,7 @@ const schema = {
 const UserList = props => {
 
   const classes = useStyles();
-  const { user, addLearner } = props
+  const { user, addLearner, loadUser } = props
   // const [users] = useState(mockData);
   const [learnerState, setLearnerState] = useState({
     addMode: false,
@@ -67,6 +68,18 @@ const UserList = props => {
     learners: [],
     tutors: [],
   })
+
+  useEffect(() => {
+    loadUser()
+    if(props.user) {
+      setLearnerState((prev) => ({
+        ...prev,
+        tutors: props.user.organizations[0].tutors
+        .map(tutor => { return { id: tutor._id, name: tutor.firstName + ' ' + tutor.lastName } })
+      }))
+    }
+  }, [])
+
   useEffect(() => {
     const errors = validate(learnerState.values, schema);
     console.log("form errors", errors)
@@ -169,6 +182,7 @@ const UserList = props => {
       touched: {},
       learners: [...learnerState.learners, showData(learnerState.values)]
     }))
+    window.location.reload()
   }
 
   const onClickAdd = () => {
@@ -199,7 +213,8 @@ const UserList = props => {
 
 const mapStateToProps = state => ({
   addLeaner: PropTypes.func.isRequired,
+  loadUser: PropTypes.func.isRequired,
   user: state.auth.user,
 })
 
-export default connect(mapStateToProps, {addLearner})(UserList);
+export default connect(mapStateToProps, {addLearner, loadUser})(UserList);

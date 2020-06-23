@@ -79,7 +79,7 @@ const AppCard = props => {
           </div>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={'/images/products/'+request.application.image+'.png'}
           />
         </div>
         <div className={classes.progress}>

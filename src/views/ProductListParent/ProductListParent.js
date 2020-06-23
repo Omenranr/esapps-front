@@ -4,7 +4,7 @@ import { IconButton, Grid, Typography, Divider } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { connect } from "react-redux"
-import { loadApps, sendRequest } from "../../actions/appActions"
+import { loadApps, sendParentRequest } from "../../actions/appActions"
 import { ProductsToolbar, ProductCard, ProductForm, ProductDetails } from './components'
 import mockData from './data'
 import PropTypes from 'prop-types'
@@ -37,13 +37,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const schema = {
+  enfant1: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 255
+    }
+  },
+  enfant2: {
+    presence: { allowEmpty: true, message: 'is required' },
+    length: {
+      maximum: 255
+    }
+  },
+  enfant3: {
+    presence: { allowEmpty: true, message: 'is required' },
+    length: {
+      maximum: 255
+    }
+  },
 }
 
 
 const ProductList = props => {
   const classes = useStyles();
   const [products] = useState(mockData)
-  const { loadApps, sendRequest } = props
+  const { loadApps, sendParentRequest } = props
   const [appState, setAppState] = useState({
     apps: [],
     appsToShow: [],
@@ -61,7 +79,6 @@ const ProductList = props => {
     values: {},
     touched: {},
     errors: {},
-    learners: []
   })
 
   const handleChange = event => {
@@ -93,7 +110,7 @@ const ProductList = props => {
     event.preventDefault()
     console.log("formState", formState)
     console.log("appState", appState)
-    sendRequest(formState.values, props.user, appState.appSelected)
+    sendParentRequest(formState.values, props.user, appState.appSelected)
     setFormState((formState) => ({
       ...formState,
       values: {},
@@ -142,7 +159,6 @@ const ProductList = props => {
         ...appState,
         apps: props.apps.apps,
         appsToShow: props.apps.apps,
-        learners: props.user.organizations[0].learners,
       }))
     }
   }, [props.apps])
@@ -260,7 +276,6 @@ const ProductList = props => {
           hasError={hasError}
           formState={formState}
           handleRequestSubmit={handleRequestSubmit}
-          learners={appState.learners}
           />
           :
           <ProductDetails app={appState.appSelected} handleBack={handleBack}/>
@@ -284,7 +299,7 @@ const ProductList = props => {
                     md={6}
                     xs={12}
                   >
-                    <ProductCard product={app} type="esapp" onDemandClick={onDemandClick} />
+                    <ProductCard product={app} type="esapp" onDemandClick={onDemandClick} onDetailClick={onDetailClick}/>
                   </Grid>
                 ))}
               </Grid>
@@ -300,9 +315,9 @@ const ProductList = props => {
 
 const mapStateToProps = state => ({
   loadApps: PropTypes.func.isRequired,
-  sendRequest: PropTypes.func.isRequired,
+  sendParentRequest: PropTypes.func.isRequired,
   apps: state.app,
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, { loadApps, sendRequest })(ProductList)
+export default connect(mapStateToProps, { loadApps, sendParentRequest })(ProductList)
